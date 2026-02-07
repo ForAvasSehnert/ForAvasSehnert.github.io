@@ -3,19 +3,24 @@
 <head>
   <title>Security Check</title>
   <style>
-    body {
+    body, html {
       margin: 0;
+      height: 100%;
       font-family: Arial, sans-serif;
       background: #f1f3f4;
     }
 
-    .overlay {
+    .overlay, .valentine-screen {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.45);
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .overlay {
+      background: rgba(0,0,0,0.45);
+      z-index: 10;
     }
 
     .popup {
@@ -24,6 +29,7 @@
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 10px 30px rgba(0,0,0,.3);
+      text-align: center;
     }
 
     .popup h2 {
@@ -42,6 +48,8 @@
       width: 100%;
       cursor: pointer;
       border: 2px solid transparent;
+      border-radius: 6px;
+      transition: border-color 0.3s;
     }
 
     .grid img.selected {
@@ -56,12 +64,37 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Valentine’s screen style */
+    .valentine-screen {
+      background: #ffcad4;
+      flex-direction: column;
+      color: #b30059;
+      font-size: 2.5rem;
+      font-weight: bold;
+      display: none;
+      text-align: center;
+      padding: 20px;
+      z-index: 20;
+    }
+
+    .hearts {
+      font-size: 4rem;
+      margin-top: 20px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
     }
   </style>
 </head>
 <body>
 
-<div class="overlay">
+<div class="overlay" id="securityCheck">
   <div class="popup">
     <h2>Security Check</h2>
     <p>Select your <b>boyfriend</b></p>
@@ -78,9 +111,29 @@
       <img src="bf9.jpg.jpeg" onclick="this.classList.toggle('selected')">
     </div>
 
-    <button onclick="alert('✅ Boyfriend verified')">Verify</button>
+    <button onclick="verifySelection()">Verify</button>
   </div>
 </div>
 
+<div class="valentine-screen" id="valentineScreen">
+  <div>Will you be my valentine?</div>
+  <div class="hearts">❤️ 💖 💘</div>
+</div>
+
+<script>
+  function verifySelection() {
+    const selected = document.querySelectorAll('.grid img.selected');
+    if (selected.length === 0) {
+      alert('Please select your boyfriend first!');
+      return;
+    }
+    // Hide security popup
+    document.getElementById('securityCheck').style.display = 'none';
+    // Show valentine screen
+    document.getElementById('valentineScreen').style.display = 'flex';
+  }
+</script>
+
 </body>
 </html>
+
